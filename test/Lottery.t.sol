@@ -92,7 +92,7 @@ contract LotteryTest is Test {
         address winner = lottery.recentWinner();
 
         assertTrue(winner == player1 || winner == player2);
-        assertEq(usdc.balanceOf(winner), 100e6 + ticketPrice * 2);
+        assertEq(usdc.balanceOf(winner), 100e6 - ticketPrice + ticketPrice * 2);
         assertEq(lottery.getLotteryBalance(), 0);
         assertEq(lottery.getPlayers().length, 0);
         assertTrue(lottery.lotteryOpen());
