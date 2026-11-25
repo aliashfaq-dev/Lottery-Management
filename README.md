@@ -105,3 +105,44 @@ cast call %LOTTERY_ADDRESS% "getLotteryBalance()(uint256)" --rpc-url %SEPOLIA_RP
 - This contract currently uses block timestamp and prevrandao to select a winner. It is **not secure randomness** and is only suitable for testnet experiments. Use Chainlink VRF before production.
 - This is a testnet demo. Do not use real funds.
 - Use the official Sepolia USDC contract address from Circle's documentation; confirm it before deploying.
+
+
+---
+
+# Blockchain Assignments 6–13
+
+The `blockchain-assignments-6-13` branch adds educational implementations for assignments 7–13. The existing USDC Lottery remains assignment 6.
+
+## Contracts
+
+| Assignment | File | What it demonstrates |
+|---|---|---|
+| 6. Lottery | `src/Lottery.sol` | USDC ticket payments, participants, owner draw and prize payout |
+| 7. Multisignature Wallet | `src/MultisigWallet.sol` | Owners submit, confirm, revoke and execute transactions after a threshold |
+| 8. EIP-191 | `src/EIP191Verifier.sol` | Ethereum Signed Message prefix and signer recovery |
+| 9. EIP-712 | `src/EIP712Mail.sol` | Domain separator, typed struct hash and typed-data signature verification |
+| 10. EIP-3009 | `src/EIP3009Token.sol` | Gasless authorization-based token transfers and cancellation |
+| 11. Low-Level Call | `src/LowLevelCallDemo.sol` | `call()` executes another contract in its own storage context |
+| 12. Delegated Call | `src/DelegateCallDemo.sol` | `delegatecall()` executes external code against the caller's storage |
+| 13. UUPS Proxy | `src/UUPSExample.sol` | ERC-1967 implementation slot, proxy delegation and owner-authorized upgrade |
+
+## Run the tests
+
+Install Foundry and run from the repository root:
+
+```bash
+forge build
+forge test -vv
+```
+
+The added test suite is `test/AdvancedAssignments.t.sol`.
+
+## Important learning and security notes
+
+- EIP-191 and EIP-712 are signature formats; they do not themselves move tokens or provide access control.
+- EIP-3009 authorizations are signed by the token holder and can be submitted by a relayer. The nonce prevents replay.
+- `call()` and `delegatecall()` are powerful low-level primitives. Always check the success flag and understand the storage/context implications.
+- The multisig example is educational. It uses a simple owner list and threshold and is not a substitute for a thoroughly audited wallet.
+- The UUPS example is a minimal educational implementation to make the proxy mechanics visible. For production, use audited OpenZeppelin upgradeable contracts, storage-layout validation, access controls and an audited upgrade process.
+- The Lottery's current `block.timestamp` / `block.prevrandao` selection is not secure randomness. Use Chainlink VRF before any real-value deployment.
+- Do not deploy these teaching examples with real funds or use real wallet private keys.
