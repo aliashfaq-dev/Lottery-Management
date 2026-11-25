@@ -54,6 +54,7 @@ contract AdvancedAssignmentsTest is Test {
 
     function testEIP3009TransferWithAuthorization() public {
         EIP3009Token token = new EIP3009Token(1_000_000e6);
+        token.transfer(owner, 1_000_000e6);
         address recipient = address(0xBEEF);
         uint256 amount = 25e6;
         uint256 validAfter = block.timestamp - 1;
